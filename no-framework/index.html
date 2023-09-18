@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
-    <div class="container">
+    <div class="container" id="app">
 
     
     <h1 class="title">A special page</h1>
@@ -111,9 +111,9 @@
 
         </div>
         <div class="column">
-            <div class="notification is-success is-light">
-                <button class="delete"></button>
-                 <strong>Congrats!</strong>You've accomplished something.
+            <div class="notification is-light" :class="x.type" v-for="x in list" v-show="x.open">
+                <button class="delete" @click="x.open = false"></button>
+                 {{x.msg}}
               </div>
               
         </div>
@@ -121,5 +121,22 @@
     
 
     </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+
+        const { createApp, ref } = Vue
+        const app = createApp({
+            setup() {
+                const list = ref([
+                    { msg: 'Hello World', open: true, type: 'is-success' },
+                    { msg: 'You did it', open: true },
+                    { msg: 'Hello World', open: true, type: 'is-danger' },
+                ]);
+                open.value = false;
+                return { list }
+            }
+        })
+        app.mount('#app')
+    </script>
 </body>
 </html>
