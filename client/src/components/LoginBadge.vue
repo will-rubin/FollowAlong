@@ -1,7 +1,6 @@
 <script setup lang="ts">
-    import { getSession, login } from 'src/model/session'
+    import { getSession, login } from '../model/session'
     const session = getSession();
-    //user = null;
 </script>
 
 <template>
