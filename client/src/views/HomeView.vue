@@ -1,11 +1,23 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+
   const newTask = ref('');
-  const tasks = ref([] as string[]);
+  const tasks = ref([] as { id?: number; text: string; completed: boolean }[]);
+
+  const tabState = ref('Current');
+  const tabList = ['Current', 'Completed', 'All'];
+
   function addTask() {
-    tasks.value.push(newTask.value);
+    tasks.value.push({ text: newTask.value, completed: false });
     newTask.value = '';
   };
+
+  const shouldDisplay = (task: { id?: number; text: string; completed: boolean }) =>
+      (tabState.value == 'Current' && !task.completed) ||
+      (tabState.value == 'Completed' && task.completed) ||
+      tabState.value == 'All';  
+  
+
 </script>
 
 <template>
@@ -29,14 +41,12 @@ import { ref } from 'vue';
         </p>
       </div>
       <p class="panel-tabs">
-        <a>Current</a>
-        <a>Completed</a>
-        <a>All</a>
+        <a v-for="tab in tabList" :class="{ 'is-active': tabState == tab}" @click.prevent="tabState = tab">{{ tab }}</a>
       </p>
       
-      <label class="panel-block" v-for="task in tasks">
-        <input type="checkbox">
-        {{ task }}
+      <label class="panel-block" v-for="task in tasks" v-show="shouldDisplay(task)">
+        <input type="checkbox" v-model="task.completed">
+        {{ task.text }}
       </label>
       <div class="panel-block">
         <button class="button is-link is-outlined is-fullwidth">
