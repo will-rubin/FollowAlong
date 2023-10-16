@@ -3,6 +3,7 @@ import { type User, getUserByEmail } from './users'
 
 const session = reactive({
     user: null as User | null,
+    redirectURL: null as string | null
 })
 
 
