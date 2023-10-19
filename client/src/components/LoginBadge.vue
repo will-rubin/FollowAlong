@@ -3,7 +3,7 @@
 
     const session = getSession()
 
-    
+    const { login, logout } = useLogin()
 
     const doLogin = () => {
         login("kminchelle@qq.com", "0lelplR");
