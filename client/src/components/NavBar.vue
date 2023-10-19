@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
 import LoginBadge from './LoginBadge.vue';
+import FlyoutPanel from './FlyoutPanel.vue';
 
 const isActive = ref(false);
 </script>
@@ -58,6 +59,9 @@ const isActive = ref(false);
         </div>
     </div>
     </nav>
+    <FlyoutPanel>
+        <h1 class="subtitle">Shopping Cart</h1>
+    </FlyoutPanel>
 </template>
 
 <style scoped>
