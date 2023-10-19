@@ -20,10 +20,7 @@ const router = createRouter({
       path: '/products',
       name: 'products',
       component: () => import('../views/ProductList.vue'),
-      beforeEnter: (to, from, next) => {
-        console.log("about beforeEnter");
-        next();
-      }
+      beforeEnter: requireLogin
     },
     {
       path: '/about',

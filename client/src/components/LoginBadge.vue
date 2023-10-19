@@ -1,12 +1,16 @@
 <script setup lang="ts">
-    import { getSession, login, logout } from '@/model/session'
-    const session = getSession();
+    import { getSession, useLogin } from '@/model/session'
+
+    const session = getSession()
+
+    
+
     const doLogin = () => {
         login("kminchelle@qq.com", "0lelplR");
     }
+    
     const doLogout = () => {
         logout();
-
     }
 </script>
 
