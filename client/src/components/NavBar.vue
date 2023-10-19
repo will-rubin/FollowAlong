@@ -1,10 +1,14 @@
 <script setup lang="ts">
+
 import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
 import LoginBadge from './LoginBadge.vue';
 import FlyoutPanel from './FlyoutPanel.vue';
 
+
 const isActive = ref(false);
+const isShoppingCartOpen = ref(false);
+
 </script>
 
 <template>
@@ -53,6 +57,13 @@ const isActive = ref(false);
         </div>
 
         <div class="navbar-end">
+            <div class="navbar-item">
+                <a class="button" :class="{ 'is-active': isShoppingCartOpen}" @click.prevent="isShoppingCartOpen = !isShoppingCartOpen">
+                    <span class="icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </span>
+                </a>
+            </div>
             <div class="navbar-item">
                 <LoginBadge />
             </div>
