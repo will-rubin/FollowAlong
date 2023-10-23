@@ -14,7 +14,7 @@ export function getSession() {
 }
 
 export function useLogin(){
-    const router = useRouter()
+    
     return {
          login(email: string, password: string): User | null {
             const user = getUserByEmail(email)
