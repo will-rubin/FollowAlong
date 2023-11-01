@@ -77,6 +77,21 @@ const isShoppingCartOpen = ref(false);
 </template>
 
 <style scoped>
+
+@media (min-width: 641px) {
+  .navbar {
+    margin-right: 2rem;
+    transition: margin-right 0.5s ease-in-out;
+  }
+  .navbar.isShoppingCartOpen {
+    margin-right: 20rem;
+  }
+}
+.tag.is-small {
+  position: absolute;
+  transform: translate(50%, -30%);
+  font-size: x-small;
+}
     .router-link-active {
         font-weight: bold;
         border-bottom: 2px solid;
