@@ -2,16 +2,19 @@
 const express = require('express');  //CommonJS module syntax
 const productController = require('./controllers/products.js'); //import the router object from products.js
 const app = express();  //instantiate express app, then create map of application routes
+const path = require('path'); //path module to help with file paths
 
 const PORT = 3000;
 
+app 
+  .use('/', express.static(path,join( __dirname, '../client/dist/')))
+  .use(express.json())
+  .use('/api/v1/products', productController)
 
+  .get('*', (req, res) => {
+      res.sendFile(path.join(__dirname, '../client/dist/index.html'))
+  })
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-})
-
-.use('/products', productController); //use the router object from products.js, this is a middleware function. Use is a catchall verb, so it will match any HTTP verb, get, post, put, delete, etc. and any path that starts with /products. So /products, /products/1, /products/1/reviews, etc. will all match this route.
 console.log('1: Trying to start server...')
 
 app.listen(PORT, () => {
