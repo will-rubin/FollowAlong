@@ -1,7 +1,7 @@
 
 
 const express = require('express');
-const { getProducts, getProductById, search } = require('../data/models/products.js'); //import the getProducts function from products.js
+const { getAll, get, search, create, update, remove } = require('../models/products.js'); //import the getProducts function from products.js
 const router = express.Router(); //pretty much the same as app in index.js
 
 router.get('/', (req, res, next) => { //req has all info about the request, IP address, headers, etc. res is the response object with send and other functions, next is a function that will pass control to the next matching route
@@ -19,13 +19,29 @@ router.get('/search', (req, res, next) => {
 });
 
 router.get('/:id', (req, res, next) => { 
-    const product = getProductById(+req.params.id);
+    const product = get(+req.params.id);
     if(product) {
         res.send(product);
     } else {
         res.status(404).send(`Product with id ${req.params.id} not found`);
     }
 
+})
+
+.post('/', (req, res, next) => {
+    const product = create(req.body);
+    res.send(product);
+})
+
+.patch('/:id', (req, res, next) => {
+    req.body.id = +req.params.id;
+    const product = update(req.body);
+    res.send(product);
+})
+
+.delete('/:id', (req, res, next) => {
+    remove(+req.params.id);
+    res.send('Product deleted');
 })
 
 

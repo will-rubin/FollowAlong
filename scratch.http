@@ -1,0 +1,16 @@
+
+POST https://dummyjson.com/products/add
+Content-Type: application/json
+
+{
+    "id": 101,
+
+}
+
+###
+http://localhost:3000
+
+
+
+###
+https://newpaltzwp-f23.onrender.com/
