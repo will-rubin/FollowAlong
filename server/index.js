@@ -7,7 +7,7 @@ const path = require('path'); //path module to help with file paths
 const PORT = 3000;
 
 app 
-  .use('/', express.static(path,join( __dirname, '../client/dist/')))
+  .use('/', express.static(path.join( __dirname, '../client/dist/')))
   .use(express.json())
   .use('/api/v1/products', productController)
 
