@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node server/index.js",
     "dev": "nodemon --watch ./server server/index.js",
-    "build": ""
+    "build": "npm i --production && cd client && npm install && npm run build && cd .."
   },
 
   "dependencies": {
