@@ -6,16 +6,15 @@ import * as myFetch from './myFetch'
 
 const toast = useToast()
 
-
+const router = useRouter()
 const session = reactive({
-  
     user: null as User | null,
     redirectURL: null as string | null,
     messages: [] as { type: string, text: string }[],
     loading: 0
 })
 
-export function api(action: string) {
+export function api(action: string, body?: unknown, method?: string) {
     session.loading++, //increment the loading counter
     showErrors('api() is deprecated. Use myFetch.api() instead.')
     return myFetch.api(`${action}`)
@@ -40,25 +39,14 @@ export function showErrors(err: string | { message: string }) {
 export function useLogin(){
     
     return {
-        login(email: string, password: string): Promise<User | null> {
-
-            const user = getUserByEmail(email)
-            return getUserByEmail(email)
-            .then(user => {
-                if (user && user.password === password) {
-                    session.user = user;
-                    //redirect to the redirectURL
-                    const router = useRouter()
-                    router.push(session.redirectURL || '/')
-                    return user;
-                }
-                return null;
-            })
+        async login(email: string, password: string): Promise<User | null> {
+            session.user = await api('users/login', { email, password })
+            router.push(session.redirectURL ?? '/')
+            return session.user
         },
-         
         logout() {
             session.user = null
+            router.push('/login')
         }
-        
     }
 }

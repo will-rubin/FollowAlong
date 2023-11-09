@@ -6,6 +6,8 @@ const path = require('path'); //path module to help with file paths
 
 const PORT = 3000;
 
+
+//CORS
 app 
   .use('/', express.static(path.join( __dirname, '../client/dist/')))
   .use(express.json())
@@ -18,7 +20,12 @@ app
   .get('*', (req, res) => {
       res.sendFile(path.join(__dirname, '../client/dist/index.html'))
   })
-
+  .use(req, res ,next) => {
+    res.header('Access-Control-Allow-Origin', '*'); //allow CORS
+    res.header('Access-Control-Allow-Headers', '*'); //allow CORS
+    res.header('Access-Control-Allow-Headers', '*'); //allow CORS
+    next()
+  }
 console.log('1: Trying to start server...')
 
 app.listen(PORT, () => {
