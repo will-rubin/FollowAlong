@@ -20,12 +20,18 @@ app
   .get('*', (req, res) => {
       res.sendFile(path.join(__dirname, '../client/dist/index.html'))
   })
-  .use(req, res ,next) => {
+  .use((req, res ,next) => {
     res.header('Access-Control-Allow-Origin', '*'); //allow CORS
     res.header('Access-Control-Allow-Headers', '*'); //allow CORS
     res.header('Access-Control-Allow-Headers', '*'); //allow CORS
     next()
-  }
+  })
+  .use((err, req, res, next) => { 
+    console.log(err);
+    res
+      .status(err?.status || 500)
+      .json({ message: err?.message || err })
+  })
 console.log('1: Trying to start server...')
 
 app.listen(PORT, () => {
