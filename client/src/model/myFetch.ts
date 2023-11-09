@@ -6,7 +6,6 @@ const API_ROOT = "http://localhost:5173/api/v1";
 export function rest(url: string) {
     return fetch(url)
         .then(response => { response.json() })
-        .catch(error => console.log(error));
 }
 
 export function api(url: string) {

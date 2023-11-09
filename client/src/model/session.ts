@@ -8,14 +8,19 @@ const toast = useToast()
 
 
 const session = reactive({
+  
     user: null as User | null,
     redirectURL: null as string | null,
     messages: [] as { type: string, text: string }[],
+    loading: 0
 })
 
 export function api(action: string) {
+    session.loading++, //increment the loading counter
     showErrors('api() is deprecated. Use myFetch.api() instead.')
     return myFetch.api(`${action}`)
+      .catch(err => showErrors(err))
+      .finally(() => session.loading--) //decrement the loading counter
 }
 
 export function getSession() {
