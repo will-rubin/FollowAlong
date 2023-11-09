@@ -10,7 +10,11 @@ app
   .use('/', express.static(path.join( __dirname, '../client/dist/')))
   .use(express.json())
   .use('/api/v1/products', productController)
-
+  .use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*'); //allow CORS
+    res.header('Access-Control-Allow-Headers', '*'); //allow CORS
+    next()
+  })
   .get('*', (req, res) => {
       res.sendFile(path.join(__dirname, '../client/dist/index.html'))
   })

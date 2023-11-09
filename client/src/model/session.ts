@@ -1,13 +1,17 @@
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { type User, getUserByEmail } from './users'
+import * as myFetch from './myFetch'
+import { get } from 'http'
 
 const session = reactive({
     user: null as User | null,
     redirectURL: null as string | null
 })
 
-
+export function api(action: string) {
+    return myFetch.api(`${action}`)
+}
 
 export function getSession() {
     return session
@@ -16,20 +20,25 @@ export function getSession() {
 export function useLogin(){
     
     return {
-         login(email: string, password: string): User | null {
+        login(email: string, password: string): Promise<User | null> {
+
             const user = getUserByEmail(email)
-            if (user && user.password === password) {
-                session.user = user;
-                //redirect to the redirectURL
-                const router = useRouter()
-                router.push(session.redirectURL || '/')
-                return user;
-            }
-            return null;
-         },
+            return getUserByEmail(email)
+            .then(user => {
+                if (user && user.password === password) {
+                    session.user = user;
+                    //redirect to the redirectURL
+                    const router = useRouter()
+                    router.push(session.redirectURL || '/')
+                    return user;
+                }
+                return null;
+            })
+        },
          
-         logout() {
+        logout() {
             session.user = null
-         }
+        }
+        
     }
 }
