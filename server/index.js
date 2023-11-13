@@ -4,6 +4,8 @@ const productController = require('./controllers/products.js'); //import the rou
 const app = express();  //instantiate express app, then create map of application routes
 const path = require('path'); //path module to help with file paths
 
+const mongo = require('./models/mongo.js');
+
 const PORT = 3000;
 
 
