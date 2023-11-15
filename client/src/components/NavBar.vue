@@ -57,7 +57,7 @@ const isShoppingCartOpen = ref(false);
                         <span class="icon">
                             <i class="fas fa-shopping-cart"></i>
                         </span>
-                        <span class="tag is-small is-primary" v-if="cartCount">{{ cartCount }}</span>
+                        <span class="tag is-small is-danger is-rounded" v-if="cartCount">{{ cartCount }}</span>
                     </a>
                 </div>
                 <div class="navbar-item">

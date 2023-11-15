@@ -1,12 +1,12 @@
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
-import { type User, getUserByEmail } from './users'
 import * as myFetch from './myFetch'
+import { type User, getUserByEmail } from './users'
+
 
 const toast = useToast()
 
-const router = useRouter()
 const session = reactive({
     user: null as User | null,
     redirectURL: null as string | null,
@@ -15,38 +15,33 @@ const session = reactive({
 })
 
 export function api(action: string, body?: unknown, method?: string) {
-    session.loading++, //increment the loading counter
-    showErrors('api() is deprecated. Use myFetch.api() instead.')
-    return myFetch.api(`${action}`)
-      .catch(err => showErrors(err))
-      .finally(() => session.loading--) //decrement the loading counter
+    session.loading++
+    return myFetch.api(`${action}`, body, method)
+        .catch(err => showError(err))
+        .finally(() => session.loading--)        
 }
 
 export function getSession() {
-    return session
+    return session;
 }
 
-export function showErrors(err: string | { message: string }) {
+export function showError(err: any) {
     console.error(err)
-    session.messages.push({ type: 'error', text: typeof err === 'string' ? err : err.message})
-    if (typeof err === 'string') {
-        toast.error(err)
-    } else {
-        toast.error(err.message)
-    }
+    session.messages.push({ type: 'error', text: err.message ?? err });
+    toast.error(err.message ?? err);
 }
 
 export function useLogin(){
-    
+    const router = useRouter()
     return {
         async login(email: string, password: string): Promise<User | null> {
-            session.user = await api('users/login', { email, password })
-            router.push(session.redirectURL ?? '/')
-            return session.user
+            session.user = await api('users/login', { email, password });
+            router.push(session.redirectURL || '/');
+            return session.user;
         },
         logout() {
-            session.user = null
-            router.push('/login')
+            session.user = null;
+            router.push('/login');
         }
     }
 }

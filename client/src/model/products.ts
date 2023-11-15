@@ -15,5 +15,5 @@ export interface Product {
   }
 
   export function getProducts(): Product[] {
-      return data.products
+      return data.products;
   }

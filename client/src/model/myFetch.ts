@@ -18,7 +18,7 @@ export function rest(url: string, body?: unknown, method?: string) {
 }
 
 export function api(action: string, body?: unknown, method?: string) {
-    return rest(`${API_ROOT}/${action}`);
+    return rest(`${API_ROOT}/${action}`, body, method);
 }
 
 /* A list of async patterns

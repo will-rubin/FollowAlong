@@ -5,7 +5,7 @@ const cart = getCart();
 </script>
 
 <template>
-    <div>
+    <div class="cart">
         <h1 class="subtitle">
             Cart: {{ count }} items, total: ${{ total }}
         </h1>
@@ -48,13 +48,12 @@ const cart = getCart();
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 1rem;
-    box-shadow: 0 0 1rem #000;
-    overflow: hidden
+    box-shadow: 0 0 1rem #0004;
+    overflow: hidden;
 }
 
 .item img {
     width: 100px;
-    flex-basis: 50px;
     margin-right: .5rem;
 }
 </style>
