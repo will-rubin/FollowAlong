@@ -5,7 +5,7 @@ import { RouterLink } from 'vue-router';
 import LoginBadge from './LoginBadge.vue';
 import FlyoutPanel from './FlyoutPanel.vue';
 import ShoppingCart from './ShoppingCart.vue';
-
+import { count as cartCount } from '@/model/shoppingCart';
 
 const isActive = ref(false);
 const isShoppingCartOpen = ref(false);
@@ -14,62 +14,57 @@ const isShoppingCartOpen = ref(false);
 
 <template>
     <nav class="navbar" role="navigation" aria-label="main navigation" :class="{ isShoppingCartOpen }">
-    <div class="navbar-brand">
-        <a class="navbar-item" href="https://bulma.io">
-        <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
-        <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="28" height="28" />
-        </a>
-
-        <a role="button" class="navbar-burger" :class="{ 'is-active': isActive}" @click="isActive = !isActive" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-        </a>
-    </div>
-
-    <div id="navbarBasicExample" class="navbar-menu" :class="{ 'is-active': isActive }">
-        <div class="navbar-start">
-        <RouterLink class="navbar-item" to="/">Home</RouterLink>
-        <RouterLink class="navbar-item" to="/about">About</RouterLink>
-        <RouterLink class="navbar-item" to="/products">Products</RouterLink>
-    
-
-        <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link">
-            More
+        <div class="navbar-brand">
+            <a class="navbar-item" href="https://bulma.io">
+                <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="28" height="28" />
             </a>
-
-            <div class="navbar-dropdown">
-            <a class="navbar-item">
-                About
+            <a role="button" class="navbar-burger" :class="{ 'is-active': isActive}" @click="isActive = !isActive" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
             </a>
-            <a class="navbar-item">
-                Jobs
-            </a>
-            <a class="navbar-item">
-                Contact
-            </a>
-            <hr class="navbar-divider">
-            <a class="navbar-item">
-                Report an issue
-            </a>
-            </div>
-        </div>
         </div>
 
-        <div class="navbar-end">
-            <div class="navbar-item">
-                <a class="button" :class="{ 'is-active': isShoppingCartOpen }" @click.prevent="isShoppingCartOpen = !isShoppingCartOpen">
-                    <span class="icon">
-                        <i class="fas fa-shopping-cart"></i>
-                    </span>
+        <div id="navbarBasicExample" class="navbar-menu" :class="{ 'is-active': isActive }">
+            <div class="navbar-start">
+                <RouterLink class="navbar-item" to="/">Home</RouterLink>
+                <RouterLink class="navbar-item" to="/about">About</RouterLink>
+                <RouterLink class="navbar-item" to="/products">Products</RouterLink>
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link">
+                    More
                 </a>
+                <div class="navbar-dropdown">
+                    <a class="navbar-item">
+                        About
+                    </a>
+                    <a class="navbar-item">
+                        Jobs
+                    </a>
+                    <a class="navbar-item">
+                        Contact
+                    </a>
+                    <hr class="navbar-divider">
+                    <a class="navbar-item">
+                        Report an issue
+                    </a>
+                </div>
             </div>
-            <div class="navbar-item">
-                <LoginBadge />
+            </div>
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <a class="button" :class="{ 'is-active': isShoppingCartOpen }" @click.prevent="isShoppingCartOpen = !isShoppingCartOpen">
+                        <span class="icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </span>
+                        <span class="tag is-small is-primary" v-if="cartCount">{{ cartCount }}</span>
+                    </a>
+                </div>
+                <div class="navbar-item">
+                    <LoginBadge />
+                </div>
             </div>
         </div>
-    </div>
     </nav>
     <FlyoutPanel :class="{ 'is-active': isShoppingCartOpen }">
        <ShoppingCart /> 
@@ -92,8 +87,8 @@ const isShoppingCartOpen = ref(false);
   transform: translate(50%, -30%);
   font-size: x-small;
 }
-    .router-link-active {
-        font-weight: bold;
-        border-bottom: 2px solid;
-    }
+.router-link-active {
+    font-weight: bold;
+    border-bottom: 2px solid;
+}
 </style>
