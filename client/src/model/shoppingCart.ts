@@ -1,6 +1,5 @@
+import { reactive, computed } from "vue";
 import { type Product } from "@/model/products";
-import { reactive } from 'vue'
-import { computed } from 'vue'
 
 export type ShoppingCartItem = {
     product: Product,
