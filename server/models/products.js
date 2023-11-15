@@ -23,6 +23,10 @@
       return data.products;
   }
 
+  /**
+   * 
+   * @param {*} id 
+   */
   function get(id) {
         return data.products.find((product) => product.id === id);
     }
@@ -32,7 +36,12 @@
   }
 
   function search(query) {
-      return data.products.filter((product) => product.title.toLowerCase().includes(query.toLowerCase()));
+      return data.products.filter((product) => {
+        return (
+            product.title.toLowerCase().includes(query.toLowerCase()) ||
+            product.description.toLowerCase().includes(query.toLowerCase())
+            );
+        });
   }
 
   /**
@@ -57,7 +66,7 @@
     function update(product) {
         const index = data.products.findIndex((p) => p.id === product.id);
         if(index === -1) {
-            throw new Error(`Product with id ${id} not found`);
+            throw new Error('Product not found');
         }
         data.products[index] = {
             ...data.products[index],
@@ -69,15 +78,13 @@
     /**
      * 
      * @param {number} id - The id of the product to delete.
-     * @returns {Product} The deleted product.
      */
     function remove(id) {
-        const index = data.products.findIndex((p) => p.id === id);
+        const index = data.products.findIndex(p => p.id === id);
         if(index === -1) {
-            throw new Error(`Product with id ${id} not found`);
+            throw new Error('Product not found');
         }
-        const [product] = data.products.splice(index, 1);
-        return product;
+        data.products.splice(index, 1);
     }
 
   module.exports = {
