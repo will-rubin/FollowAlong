@@ -1,6 +1,6 @@
 //going to wrap the Fetch API in a function that will make it easier to use, and increase the abstraction level of the API.\
 
-const API_ROOT = "http://localhost:5173/api/v1";
+const API_ROOT = import.meta.env.VITE_API_ROOT as string;
 
 
 export function rest(url: string, body?: unknown, method?: string) {
