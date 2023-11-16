@@ -6,8 +6,6 @@ const productController = require('./controllers/products.js'); //import the rou
 const userController = require('./controllers/users.js'); //import the router object from users.js
 const app = express();  //instantiate express app, then create map of application routes
 
-const mongo = require('./models/mongo.js');
-
 const PORT = process.env.PORT ?? 3000; //set port to 3000 if not specified in .env file - ?? is the null coalescer operator
 console.log(`The best class at SUNY New Paltz is ${process.env.BEST_CLASS}`); //access environment variables with process.env
 

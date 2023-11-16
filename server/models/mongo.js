@@ -1,20 +1,18 @@
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 const uri = process.env.MONGO_URI;
+const DB_NAME = process.env.MONGO_DB_NAME;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {});
 
-async function run() {
-  try {
-    // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
-    // Send a ping to confirm a successful connection
-    const products = await client.db("amazify").collection("products").find().toArray();
-    console.log({products}); //creating a json object with one property called products, making it clear
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
-  }
+async function connect() {
+  await client.connect();
+  return client.db(DB_NAME) //we want to avoid magic strings, eq avoid putting the actual port number in the code, use the nv var instead
+  
 }
-run().catch(console.dir);
+
+module.exports = { 
+  connect,
+  ObjectId
+ };

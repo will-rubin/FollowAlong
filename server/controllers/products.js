@@ -5,9 +5,12 @@ const { getAll, get, search, create, update, remove } = require('../models/produ
 const router = express.Router(); //pretty much the same as app in index.js
 
 router.get('/', (req, res, next) => { //req has all info about the request, IP address, headers, etc. res is the response object with send and other functions, next is a function that will pass control to the next matching route
-   
-    res.send(getAll());
-
+    
+    getAll()
+    .then((products) => {
+        res.send(products);
+    })
+    .catch(next)
 })
 
 .get('/search', (req, res, next) => {
