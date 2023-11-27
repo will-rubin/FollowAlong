@@ -34,68 +34,80 @@ async function getCollection() {
 
   /**
    * 
-   * @param {*} id 
+   * @param {string} id 
    */
-  function get(id) {
-        return data.products.find((product) => product.id === id);
+    async function get(id) {
+        const col = await getCollection();
+        return await col.findOne({ _id: ObjectId(id) });
     }
 
-  function getByCategory(category) {
-      return data.products.filter((product) => product.category === category);
+  async function getByCategory(category) {
+      const col = await getCollection();
+      return await col.findOne({ category });
   }
 
-  function search(query) {
-      return data.products.filter((product) => {
-        return (
-            product.title.toLowerCase().includes(query.toLowerCase()) ||
-            product.description.toLowerCase().includes(query.toLowerCase())
-            );
-        });
+  async function search(query) {
+      const col = await getCollection();
+      const products = await col.find({
+        $or : [
+            { title: { $regex: query, $options: 'i' } }, // i = case insensitive
+            { description: { $regex: query, $options: 'i' } }
+        ]
+      }).toArray();
+      return products;
   }
 
   /**
    * 
    * @param {Product} product
-   * @returns {Product} The created product. 
+   * @returns {Promise<Product>} The created product. 
    */
-  function create(product) {
+  async function create(product) {
       const newProduct = {
           id: data.products.length + 1,
           ...product
       };
+      const col = await getCollection();   
+      const result = await col.insertOne(newProduct);
       data.products.push(newProduct);
+      newProduct._id = result.insertedId;
+
       return newProduct;
   }
 
     /**
      * 
      * @param {Product} product - The product data to update.
-     * @returns {Product} The updated product.
+     * @returns {Promise<Product>} The updated product.
      */
-    function update(product) {
-        const index = data.products.findIndex((p) => p.id === product.id);
-        if(index === -1) {
-            throw new Error('Product not found');
-        }
-        data.products[index] = {
-            ...data.products[index],
-            ...product
-        };
-        return data.products[index];
+    async function update(product) {
+        const col = await getCollection();
+        const result = await col.findOneAndUpdate(
+            { _id: ObjectId(product._id) },
+            { $set: product },
+            { returnDocument: 'after' }
+        );
+        return result.value;
     }
 
     /**
      * 
-     * @param {number} id - The id of the product to delete.
+     * @param {string} id - The id of the product to delete.
      */
-    function remove(id) {
+    async function remove(id) {
+        const col = await getCollection();
+        const result = await col.deleteOne({ _id: ObjectId(id) });
         const index = data.products.findIndex(p => p.id === id);
         if(index === -1) {
             throw new Error('Product not found');
         }
-        data.products.splice(index, 1);
+    }
+
+    async function seed() {
+        const col = await getCollection();
+        await col.insertMany(data.products);
     }
 
   module.exports = {
-      getAll, get, getByCategory, search, create, update, remove
+      getAll, get, getByCategory, getCollection, COLLECTION_NAME, search, create, update, remove, seed
   };
