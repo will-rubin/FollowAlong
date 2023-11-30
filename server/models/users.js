@@ -67,7 +67,7 @@
 /**
  * @type { {users: User[]} }
  */
-const e = require("express");
+const express = require("express");
 const data = require("../data/users.json");
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET;
