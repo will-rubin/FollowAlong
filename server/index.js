@@ -23,6 +23,12 @@ app
     next()
   })
 
+  .use((req, res, next) => {
+    console.log(`${req.method} request made at ${req.url}`);
+    console.log(`Authroization: ${req.headers.authorization}`)
+    next();
+  })
+
   .use('/api/v1/products', productController)
   .use('/api/v1/users', userController)
 

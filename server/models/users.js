@@ -196,7 +196,7 @@ function remove(id) {
 
 function generateJWT(user) {
   return new Promise((resolve, reject) => {
-    jwt.sign(user, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN}, (err, token) => {
+    jwt.sign(user, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN }, (err, token) => {
       if(err) {
         reject(err);
       resolve(token);
