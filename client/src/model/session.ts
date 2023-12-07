@@ -46,6 +46,20 @@ export function useLogin(){
             router.push(session.redirectURL || '/');
             return session.user;
         },
+        async googleLogin() {
+            await myFetch.loadScript("https://accounts.google.com/gsi/client", "google-login");
+            console.log({client_ID: import.meta.env.VITE_GOOGLE_CLIENT_ID})
+            const tokenClient = google.accounts.oauth2.initTokenClient({
+                client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+                scope: "email profile",
+                callback: async (response: any) => {
+                    console.log(response)
+                    const me = await myFetch.rest()
+                }
+            });
+            tokenClient.requestAccessToken({prompt: 'consent'})
+
+        },
         logout() {
             session.user = null;
             router.push('/login');
